@@ -16,6 +16,7 @@
     </head>
     <body>
     {% include 'partials/_main_navbar.html.twig' %}
+    {% include 'partials/_flashes.html.twig' %}
     {% block body %}{% endblock %}
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     {% block js %}{% endblock %}

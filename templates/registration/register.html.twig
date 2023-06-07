@@ -1,0 +1,25 @@
+{% extends "base.html.twig"%}
+{% block Title %}crée un compte {% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-5">Le Blog de Batman</h1>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-10 mx-auto">
+                <h2 class="text-center my-4">
+                    Créer un compte
+                </h2>
+            </div>
+    </div>
+        <div class="row">
+            <div class="col-12 col-md-4 mx-auto">
+
+                {{ form( registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
