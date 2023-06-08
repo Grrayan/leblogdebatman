@@ -16,6 +16,15 @@ cd leblogdebatman_2027
 composer install
 ```
 
+### Création base de données
+configurer la connexion à la base de données dans le fichier .env (voir cours)
+puis taper les commandes suivantes :
+```
+symfony console doctrine:database:create
+symfony console doctrine:migrations:migrate
+```
+
+
 ### Lancer le serveur
 ```
 symfony serve
