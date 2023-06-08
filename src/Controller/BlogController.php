@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\NewPublicationFormType;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/blog', name: 'blog_')]
-
 class BlogController extends AbstractController
 {
     #[Route('/nouvelle-publication/', name: 'new_publication')]
@@ -42,7 +41,10 @@ class BlogController extends AbstractController
     $em->flush();
 
     $this->addFlash('success', 'Article publié avec succès !');
-    return $this->redirectToRoute('main_home');
+    return $this->redirectToRoute('blog_publication_view', [
+        'slug' => $newArticle->getSlug()
+
+    ]);
         }
 
 
@@ -51,6 +53,8 @@ class BlogController extends AbstractController
 
         ]);
     }
+
+
     #[Route('/publications/liste/', name: 'publication_list')]
     public function publicationList(ManagerRegistry $doctrine, $articles): Response
     {
@@ -65,5 +69,15 @@ class BlogController extends AbstractController
 
 
     }
+    #[Route('/publication/xxx/', name: 'publication_view')]
+    public function publicationView(): Response
+    {
+
+        return $this->render('blog/publication_view.html.twig',[
+            'article' => $article,
+        ]);
+    }
+
+
 }
 
