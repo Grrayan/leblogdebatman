@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Form\NewPublicationFormType;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,4 +51,19 @@ class BlogController extends AbstractController
 
         ]);
     }
+    #[Route('/publications/liste/', name: 'publication_list')]
+    public function publicationList(ManagerRegistry $doctrine, $articles): Response
+    {
+        $articleRepo = $doctrine->getRepository(Article::class);
+
+        $article = $articleRepo->findAll();
+
+        return $this->render('blog/publication_list.html.twig',[
+            'articles' => $articles,
+
+        ]);
+
+
+    }
 }
+
