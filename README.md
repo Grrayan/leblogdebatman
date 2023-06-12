@@ -23,7 +23,19 @@ puis taper les commandes suivantes :
 symfony console doctrine:database:create
 symfony console doctrine:migrations:migrate
 ```
+### Création des fixtures
+```
+symfony console doctrine: fixutres load
+```
+Cette commande créera :
+* Un comtpe admin (email: a@a.a , password :aaaaaaaaA7/')
+* 10 compte utilisateurs (email aléatoire , password : 'aaaaaaaaA7/')
+* 50 articles
+### Installation fichiers front-end des bundles (CKEditor)
+```
 
+symfony console  assets: install public
+```
 
 ### Lancer le serveur
 ```
