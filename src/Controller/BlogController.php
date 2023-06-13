@@ -32,22 +32,21 @@ class BlogController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() &&  $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $newArticle
                 ->setPublicationDate(new \DateTime())
-                ->setAuthor( $this->getUser() )
-                ;
+                ->setAuthor($this->getUser());
 
-    $em = $doctrine->getManager();
-    $em->persist($newArticle);
-    $em->flush();
+            $em = $doctrine->getManager();
+            $em->persist($newArticle);
+            $em->flush();
 
-    $this->addFlash('success', 'Article publié avec succès !');
-    return $this->redirectToRoute('blog_publication_view', [
-        'slug' => $newArticle->getSlug()
+            $this->addFlash('success', 'Article publié avec succès !');
+            return $this->redirectToRoute('blog_publication_list', [
+                'slug' => $newArticle->getSlug()
 
-    ]);
+            ]);
         }
 
 
@@ -59,25 +58,60 @@ class BlogController extends AbstractController
 
 
     #[Route('/publications/liste/', name: 'publication_list')]
-    public function publicationList(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
+    public function publicationList(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator, $article): Response
     {
         $requestPage = $request->query->getInt('page', 1);
-        if ($requestPage < 1){
+        if ($requestPage < 1) {
             throw new NotFoundHttpException();
         }
         $em = $doctrine->getManager();
-        $query = $em ->createQuery('SELECT a FROM App\Entity\Article a ORDER BY a.puclicationDate DESC');
+        $query = $em->createQuery('SELECT a FROM App\Entity\Article a ORDER BY a.puclicationDate DESC');
         $articles = $paginator->paginate(
             $query,
             $requestPage,
             10
         );
 
-        return $this->render('blog/publication_view.html.twig',[
+        return $this->render('blog/publication_view.html.twig', [
             'article' => $article,
+
+
         ]);
+
     }
 
+    #[Route('/publication/suppression/{id}/', name: 'publication_delete', priority: 10)]
+    #[IsGranted('ROLE_ADMIN')]
+    public function publicationDelete(Article $article, ManagerRegistry $doctrine, Request $request): Response
+    {
+        if (!$this->isCsrfTokenValid('blog_publication_delete_' . $article->getId(), $request->query->get('csrf_token'))) {
+            $this->addFlash('error', 'Token sécurité invalide, veuillez réessayer');
+        } else {
+            $em = $doctrine->getManager();
+            $em->remove($article);
+            $em->flush();
+            $this->addFlash('success', 'La publication a été publié avec succès');
+        }
+        return $this->redirectToRoute('blog_publication_list');
 
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

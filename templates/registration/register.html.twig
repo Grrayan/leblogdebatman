@@ -1,43 +1,63 @@
-{% extends "base.html.twig"%}
-{% block Title %}crée un compte {% endblock %}
-{% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center my-5">Le Blog de Batman</h1>
-            </div>
+{# Utilisation du squelette de page base.html.twig #}
+{% extends "base.html.twig" %}
 
+{# Titre de la page #}
+{% block title %}Créer un compte{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 de la page #}
+        <div class="row">
+                    <h1 class="col-12 text-center my-5">Créer un compte</h1>
         </div>
+
+        {# Formulaire d'inscription #}
         <div class="row">
-            <div class="col-12 col-md-10 mx-auto">
-                <h2 class="text-center my-4">
-                    Créer un compte
-                </h2>
-            </div>
-    </div>
-        <div class="row">
+
             <div class="col-12 col-md-4 mx-auto">
 
-                {{ form_start( registrationForm) }}
+                {# Ouverture du formulaire #}
+                {{ form_start( registrationForm ) }}
 
-                {{ form_errors( registrationForm) }}
+                {# Affichage des erreurs générales du formulaire #}
+                {{ form_errors( registrationForm ) }}
 
-                {{ form_row( registrationForm.email) }}
+                {# Champ email #}
+                {{ form_row( registrationForm.email ) }}
 
-                {{ form_row( registrationForm.pseudonym) }}
+                {# Champ pseudo #}
+                {{ form_row( registrationForm.pseudonym ) }}
 
+                {# Champ mot de passe #}
                 {{ form_row( registrationForm.plainPassword ) }}
 
+                {# Affichage du captcha #}
+                <div class="mb-3">
+                    <div class="mb-2">Captcha de sécurité</div>
 
-                <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ 6LeKa9QlAAAAAN05sj5qiZQrfRvssEr1idKdtqo0 }}"></div>
+                </div>
 
-                {{ form_row( registrationForm.save) }}
-            {{ form_end( registrationForm) }}
+                {# Bouton de validation #}
+                {{ form_row( registrationForm.save ) }}
+
+                {# Fermeture du formulaire #}
+                {{ form_end( registrationForm ) }}
 
             </div>
+
         </div>
+
     </div>
+
 {% endblock %}
+
+
 {% block js %}
+    {# Fichier JS nécessaire pour faire fonctionner le recaptcha de Google #}
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

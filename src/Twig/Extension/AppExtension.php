@@ -13,6 +13,7 @@ class AppExtension extends AbstractExtension
     {
         return [
 
+            // Déclaration de notre nouveau filtre auprès de Twig
             new TwigFilter('excerpt', [AppExtensionRuntime::class, 'excerpt']),
         ];
     }
